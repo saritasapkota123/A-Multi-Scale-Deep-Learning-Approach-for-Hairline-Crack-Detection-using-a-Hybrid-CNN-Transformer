@@ -1,13 +1,14 @@
-# File: crack_detection_cnn/predict_single.py
+import sys
+import os
+sys.path.insert(0, os.path.dirname(__file__))
 
 import torch
 from torchvision import transforms
 from PIL import Image, ImageDraw, ImageFont
 import argparse
-import os
 import matplotlib.pyplot as plt
-from models.model import HybridCNNTransformer
-from termcolor import colored  # pip install termcolor
+from model import HybridCNNTransformer
+from termcolor import colored
 
 # -------------------- Argument Parser --------------------
 parser = argparse.ArgumentParser(description="Hairline Crack Detection with Hybrid CNN + Transformer")
@@ -16,11 +17,12 @@ parser.add_argument("--save_result", action="store_true", help="Save annotated i
 parser.add_argument("--show", action="store_true", help="Display the image with label")
 parser.add_argument("--threshold", type=float, default=0.5, help="Threshold for crack classification")
 parser.add_argument("--log", type=str, help="Path to log file for saving predictions")
+parser.add_argument("--model", type=str, default="outputs/hybrid_model.pth", help="Path to saved model")
 args = parser.parse_args()
 
 # -------------------- Load Model --------------------
 model = HybridCNNTransformer()
-model.load_state_dict(torch.load("models/hybrid_model.pth", map_location=torch.device("cpu")))
+model.load_state_dict(torch.load(args.model, map_location=torch.device("cpu")))
 model.eval()
 
 # -------------------- Image Preprocessing --------------------
@@ -62,7 +64,7 @@ if args.save_result:
     draw.text((10, 10), f"{label} ({prob:.2f})", fill=color, font=font)
     result_path = f"result_{os.path.basename(args.img_path)}"
     original.save(result_path)
-    print(f"🖼️ Annotated image saved as: {result_path}")
+    print(f"Annotated image saved as: {result_path}")
 
 # -------------------- Optional Display --------------------
 if args.show:
@@ -70,4 +72,3 @@ if args.show:
     plt.title(f"{label} ({prob:.2f})")
     plt.axis('off')
     plt.show()
-

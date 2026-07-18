@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Model checkpoints and outputs
+outputs/*.pth
+outputs/*.pt
+outputs/*.ckpt
+outputs/*.h5
+outputs/*.pkl
+outputs/*.npy
+outputs/*.png
+outputs/*.jpg
+outputs/*.jpeg
+
+# Data (large files - keep raw images out of git)
+data/raw/
+data/processed/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
